@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public Action inventory;
 
     private Rigidbody rigidbody;
+    private WaitForSeconds cachedWaitForSeconds;
+
 
     private void Awake()
     {
@@ -81,8 +83,18 @@ public class PlayerController : MonoBehaviour
             rigidbody.AddForce(Vector2.up * jumptForce, ForceMode.Impulse);
             jumpCount++; // 추가: 점프할 때마다 점프 횟수 증가
         }
+        
     }
-
+    public void JumpMaxCount(float value, float time)
+    {
+        StartCoroutine(JumpUp(value, time));
+    }
+    public IEnumerator JumpUp(float value, float time)
+    {
+        maxJumpCount += value;
+        yield return new WaitForSeconds(time);
+        maxJumpCount -= value;
+    }
     private void Move()
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
