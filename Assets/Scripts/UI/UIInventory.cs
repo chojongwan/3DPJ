@@ -201,7 +201,8 @@ public class UIInventory : MonoBehaviour
                         controller.SpeedUp((selectedItem.consumables[i].value), 2f);
                         break;
                     case ConsumableType.DoubleJump:
-                        controller.DoubleJump((selectedItem.consumables[i].value), 10f);break;
+                        controller.maxJumpCount = selectedItem.consumables[i].value;
+                        break;
                 }
             }
             RemoveSelectedItem();

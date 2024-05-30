@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumptForce;
     public LayerMask groundLayerMask;
-    public float jumpRay = 0.8f;
+    public float maxJumpCount; // 추가: 최대 점프 횟수 변수
+    private int jumpCount; // 변경: 현재 점프 횟수 변수
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -50,6 +51,10 @@ public class PlayerController : MonoBehaviour
         {
             CameraLook();
         }
+        if (IsGrounded())
+        {
+            jumpCount = 0; // 추가: 땅에 닿았을 때 점프 횟수 초기화
+        }
     }
 
     public void OnLookInput(InputAction.CallbackContext context)
@@ -71,9 +76,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded())
+        if (context.phase == InputActionPhase.Started && (IsGrounded() || jumpCount < maxJumpCount)) // 변경: IsGrounded()이거나 점프 횟수가 maxJumpCount보다 적으면 점프 가능
         {
             rigidbody.AddForce(Vector2.up * jumptForce, ForceMode.Impulse);
+            jumpCount++; // 추가: 점프할 때마다 점프 횟수 증가
         }
     }
 
@@ -107,11 +113,13 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], jumpRay , groundLayerMask))
+            if (Physics.Raycast(rays[i], 0.3f , groundLayerMask))
             {
                 return true;
             }
+            Debug.DrawRay(rays[i].origin, rays[i].direction * 0.1f, Color.red, 1f);
         }
+        
 
         return false;
     }
@@ -134,20 +142,10 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(SpeedBoost( value, time));
     }
 
-    public IEnumerator SpeedBoost(float v1, float v2)
+    public IEnumerator SpeedBoost(float value, float time)
     {
-        moveSpeed += v1;
-        yield return new WaitForSeconds(v2);
-        moveSpeed -= v1;
-    }
-    public void DoubleJump(float value, float time)
-    {
-        StartCoroutine(JumpUp(value, time));
-    }
-    public IEnumerator JumpUp(float value, float time)
-    {
-        jumpRay += value;
+        moveSpeed += value;
         yield return new WaitForSeconds(time);
-        jumpRay -= value;
+        moveSpeed -= value;
     }
 }
