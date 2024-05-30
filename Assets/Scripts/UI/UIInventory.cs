@@ -200,6 +200,8 @@ public class UIInventory : MonoBehaviour
                     case ConsumableType.Speed:
                         controller.SpeedUp((selectedItem.consumables[i].value), 2f);
                         break;
+                    case ConsumableType.DoubleJump:
+                        controller.DoubleJump((selectedItem.consumables[i].value), 10f);break;
                 }
             }
             RemoveSelectedItem();

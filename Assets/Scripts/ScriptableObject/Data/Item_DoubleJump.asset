@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a3b69737398e946b79f299ce96c41b, type: 3}
+  m_Name: Item_DoubleJump
+  m_EditorClassIdentifier: 
+  displayName: "\uB354\uBE14 \uC810\uD504"
+  description: "\uC77C\uC815 \uC2DC\uAC04\uB3D9\uC548 \uC810\uD504\uB97C \uB450\uBC88
+    \uD560\uC218\uC788\uB2E4"
+  type: 2
+  icon: {fileID: 0}
+  dropPrefab: {fileID: 0}
+  canStack: 1
+  maxStackAmount: 12
+  consumables:
+  - type: 3
+    value: 1
+  equipPrefab: {fileID: 0}

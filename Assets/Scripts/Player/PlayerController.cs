@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumptForce;
     public LayerMask groundLayerMask;
+    public float jumpRay = 0.8f;
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], 0.8f, groundLayerMask))
+            if (Physics.Raycast(rays[i], jumpRay , groundLayerMask))
             {
                 return true;
             }
@@ -139,5 +140,14 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(v2);
         moveSpeed -= v1;
     }
-
+    public void DoubleJump(float value, float time)
+    {
+        StartCoroutine(JumpUp(value, time));
+    }
+    public IEnumerator JumpUp(float value, float time)
+    {
+        jumpRay += value;
+        yield return new WaitForSeconds(time);
+        jumpRay -= value;
+    }
 }
